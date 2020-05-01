@@ -17,9 +17,7 @@ class Form < ActiveRecord::Base
     fd.user_id = user_id
     fd.form_id = self.id
     elements = self.form_elements
-    onload_elements = elements.find_all_by_onload(true)
-    conditional_elements = elements.find_all_by_onload(false)
-    ele = onload_elements + conditional_elements
+    ele = elements.sort_by(&:priority)
     form_active_hash = {}
     form_data_hash = {}
     ele.each {|e| form_active_hash[e.element.name] = e.status}
@@ -43,7 +41,7 @@ class Form < ActiveRecord::Base
       puts "Invalid Entry. Press 1 to try again"
       num = gets.chomp.to_i
       if(num == 1)
-        create_form
+        create_form(user_id)
       end
     else
       puts "Record Saved"

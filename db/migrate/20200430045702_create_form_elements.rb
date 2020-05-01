@@ -3,6 +3,7 @@ class CreateFormElements < ActiveRecord::Migration
     create_table :form_elements do |t|
       t.integer :form_id, :null => false
       t.integer :element_id, :null => false
+      t.integer :priority
       t.text :condition
       t.string :onload
       t.string :status

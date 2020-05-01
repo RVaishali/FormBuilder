@@ -19,21 +19,21 @@ e6 = Element.create({:name => 'CancelledOtherDescription', :data_type => 'String
 e7 = Element.create({:name => 'Comments', :data_type => 'String'})
 
 
-fe1 = FormElement.create({:form_id => 1, :element_id => 1, :onload => true, :status => 'active'})
-fe2 = FormElement.create({:form_id => 1, :element_id => 2, :onload => true, :status => 'active'})
-fe3 = FormElement.create({:form_id => 1, :element_id => 3, :onload => true, :status => 'active'})
-fe4 = FormElement.create({:form_id => 1, :element_id => 4, :onload => 
+fe1 = FormElement.create({:form_id => 1, :element_id => 1, :priority => 1, :onload => true, :status => 'active'})
+fe2 = FormElement.create({:form_id => 1, :element_id => 2, :priority => 2,:onload => true, :status => 'active'})
+fe3 = FormElement.create({:form_id => 1, :element_id => 3, :priority => 3,:onload => true, :status => 'active'})
+fe4 = FormElement.create({:form_id => 1, :element_id => 4, :priority => 4,:onload => 
 	true, :status => 'active'})
 fe4.condition = {:valid=>"(['CANCELLED', 
 	'COMPLETED'].include?(data_hash['Status']))"}
 fe4.save
-fe5 = FormElement.create({:form_id => 1, :element_id => 5, :onload => 
+fe5 = FormElement.create({:form_id => 1, :element_id => 5, :priority => 5,:onload => 
 	false, :status => 'inactive'})
 fe5.condition = {:valid=>"v = true; v = ['ENDUSER','OTHERS'].include?(data_hash['CancelledReason'].upcase) if(data_hash['CancelledReason'].present?); return v;", :to_show=>"((data_hash['Status'] == 'CANCELLED') ? true : false)"}
 fe5.save
-fe6 = FormElement.create({:form_id => 1, :element_id => 6, :onload => 
+fe6 = FormElement.create({:form_id => 1, :element_id => 6, :priority => 6,:onload => 
 	false, :status => 'inactive'})
 fe6.condition = {:to_show=>"((data_hash['Status'] == 'CANCELLED') ? true : false)"}
 fe6.save
-fe7 = FormElement.create({:form_id => 1, :element_id => 7, :onload => true, :status => 'active'})
+fe7 = FormElement.create({:form_id => 1, :element_id => 7, :priority => 7,:onload => true, :status => 'active'})
 

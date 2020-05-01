@@ -51,9 +51,7 @@ class FormData < ActiveRecord::Base
   def edit_form
     form = self.form
     elements = form.form_elements
-    onload_elements = elements.find_all_by_onload(true)
-    conditional_elements = elements.find_all_by_onload(false)
-    ele = onload_elements + conditional_elements
+    ele = elements.sort_by(&:priority)
     form_active_hash = {}
     form_data_hash = {}
     ele.each {|e| form_active_hash[e.element.name] = e.status}

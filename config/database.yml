@@ -5,7 +5,7 @@ development:
   adapter: mysql
   encoding: utf8
   # adapter: sqlite3
-  database: student
+  database: dynamic_form
   username: root
   password: root
   socket: /var/run/mysqld/mysqld.sock
