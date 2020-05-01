@@ -6,10 +6,8 @@ class Form < ActiveRecord::Base
   def load_form(user_id)
     fd =  FormData.find_by_form_id_and_user_id(self.id,user_id)
     if fd.present?
-      puts "LOAD EXISTING FORM DATA.."
       fd.show_form
     else
-      puts "CREATE NEW FORM DATA.."
       create_form(user_id)
     end
   end
@@ -34,14 +32,27 @@ class Form < ActiveRecord::Base
       else
         if(e.to_show(form_data_hash))
           form_active_hash[e_name] = "active"
-          puts "Enter .. #{e_name}"
+          puts "Enter #{e_name}"
           val = gets.chomp()
           form_data_hash[e_name] = val
         end
       end
     end
     fd.form_value = form_data_hash
-    puts "FDVAL.. #{fd.inspect}"
-    fd.save!
+    if(!fd.save)
+      puts "Invalid Entry. Press 1 to try again"
+      num = gets.chomp.to_i
+      if(num == 1)
+        create_form
+      end
+    else
+      puts "Record Saved"
+    end
+  end
+
+  def get_data
+    puts "Enter User Id"
+    id = gets.chomp.to_i
+    self.load_form(id)
   end
 end

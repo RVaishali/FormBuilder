@@ -11,51 +11,39 @@ class FormData < ActiveRecord::Base
     type_valid = {}
     fe_valid = {}
     form_elements = self.form.form_elements
-    puts "ELE.. "
     elements.each do |e|
       value = data_hash[e.name]
       if(value.present?)
         #CHECK DATA TYPE
-        if(!value.is_a? eval(e.data_type))
-          type_valid[e.name] = false
-          # puts "TYPE.. #{e.name.inspect}"
-        elsif e.data_type == "Integer"
+        if e.data_type == "Integer"
           mat = value.scan(/\d+/)
           if(mat.count == 1)
-            puts "MAT CONT IS 1"
             type_valid[e.name] = true 
           else
-            puts "MAT CONT IS NOT 1"
             type_valid[e.name] = false
           end
+        elsif(!value.is_a? eval(e.data_type))
+          type_valid[e.name] = false
         else
           type_valid[e.name] = true
         end
-        puts "TE.. #{e.name}.. #{type_valid[e.name].inspect}"
         #CHECK FOR VALID CONDITION
         fe = form_elements.find_by_element_id(e.id)
         condition = fe.condition.try(:[],:valid)
-        puts "FE.. CON.. #{condition}"
         if(condition.present?)
           fe_valid[e.name] = eval(condition)
         else
           fe_valid[e.name] = true
         end
-        puts "FE.. #{e.name}.. #{fe_valid[e.name].inspect}"
       end
     end
-    puts "TY VAL.. #{type_valid.inspect}"
-    puts "FE VAL.. #{fe_valid.inspect}"
     if(type_valid.values.uniq.count == 1 && fe_valid.values.uniq.count ==1)
       if(type_valid.values[0] == true && fe_valid.values[0] == true)
-        puts "R TRUE"
         return true
       else
-        puts "R FALSE"
         return false
       end
     else
-      puts "R FALSE"
       return false
     end
   end
